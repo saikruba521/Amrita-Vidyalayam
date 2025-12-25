@@ -1,0 +1,58 @@
+<header>
+  <h1>Amrita Vidyalayam</h1>
+  <p>School Dashboard</p>
+</header>
+
+<!-- Role Selection -->
+<section class="login" id="roleSelect">
+  <h2>Select Login</h2>
+  <button id="teacherBtn">Teacher Login</button>
+  <button id="studentBtn">Student Login</button>
+</section>
+
+<!-- Teacher Login -->
+<section class="login hidden" id="teacherLogin">
+  <h2>Teacher Login</h2>
+  <input id="tUser" placeholder="Username">
+  <input id="tPass" type="password" placeholder="Password">
+  <button id="tLoginBtn">Login</button>
+  <p id="tMsg"></p>
+</section>
+
+<!-- Student Login -->
+<section class="login hidden" id="studentLogin">
+  <h2>Student Login</h2>
+  <input id="sRollLogin" placeholder="Roll Number">
+  <button id="sLoginBtn">Login</button>
+  <p id="sMsg"></p>
+</section>
+
+<!-- Teacher Dashboard -->
+<section class="dashboard hidden" id="teacherDash">
+  <h2>Teacher Dashboard</h2>
+
+  <div class="card">
+    <h3>Add Student</h3>
+    <input id="name" placeholder="Name">
+    <input id="cls" placeholder="Class">
+    <input id="roll" placeholder="Roll Number">
+    <button id="addStudentBtn">Add</button>
+  </div>
+
+  <div class="card">
+    <h3>Enter Marks</h3>
+    <select id="studentList"></select>
+    <input id="m1" placeholder="Maths">
+    <input id="m2" placeholder="Science">
+    <input id="m3" placeholder="English">
+    <button id="saveMarksBtn">Save Marks</button>
+  </div>
+
+  <button id="pdfBtn">Download Consolidated PDF</button>
+</section>
+
+<!-- Student Dashboard -->
+<section class="dashboard hidden" id="studentDash">
+  <h2>Your Mark Sheet</h2>
+  <div id="studentMarks"></div>
+</section>

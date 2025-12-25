@@ -1,0 +1,63 @@
+* {
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #f3f3f3;
+}
+
+header {
+  background: #5b0f1b;
+  color: white;
+  text-align: center;
+  padding: 15px;
+}
+
+.login, .dashboard {
+  max-width: 500px;
+  margin: 20px auto;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  background: #5b0f1b;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+input, select {
+  width: 100%;
+  padding: 10px;
+  margin: 6px 0;
+}
+
+.card {
+  margin-bottom: 20px;
+}
+
+.hidden {
+  display: none;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+td, th {
+  border: 1px solid #aaa;
+  padding: 8px;
+  text-align: center;
+}
+
+@media(max-width:600px){
+  header h1 { font-size: 20px; }
+}

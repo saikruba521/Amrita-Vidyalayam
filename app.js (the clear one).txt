@@ -1,0 +1,113 @@
+// jsPanel-ready, works in CodePen
+
+document.addEventListener("DOMContentLoaded", function(){
+
+  const teachers = [{user:"teacher1", pass:"1234"}];
+  let students = JSON.parse(localStorage.getItem("students")) || [];
+  let currentStudent = null;
+
+  // Elements
+  const teacherBtn = document.getElementById("teacherBtn");
+  const studentBtn = document.getElementById("studentBtn");
+  const teacherLogin = document.getElementById("teacherLogin");
+  const studentLogin = document.getElementById("studentLogin");
+  const roleSelect = document.getElementById("roleSelect");
+  const teacherDash = document.getElementById("teacherDash");
+  const studentDash = document.getElementById("studentDash");
+
+  // Role selection
+  teacherBtn.addEventListener("click", ()=>{ showSection(teacherLogin); });
+  studentBtn.addEventListener("click", ()=>{ showSection(studentLogin); });
+
+  function showSection(sec){
+    roleSelect.classList.add("hidden");
+    teacherLogin.classList.add("hidden");
+    studentLogin.classList.add("hidden");
+    teacherDash.classList.add("hidden");
+    studentDash.classList.add("hidden");
+    sec.classList.remove("hidden");
+  }
+
+  // Teacher login
+  document.getElementById("tLoginBtn").addEventListener("click", function(){
+    const u = document.getElementById("tUser").value;
+    const p = document.getElementById("tPass").value;
+    const ok = teachers.find(t=>t.user===u && t.pass===p);
+    if(ok){
+      showSection(teacherDash);
+      loadStudents();
+    } else { document.getElementById("tMsg").innerText="Invalid login"; }
+  });
+
+  // Student login
+  document.getElementById("sLoginBtn").addEventListener("click", function(){
+    const roll = document.getElementById("sRollLogin").value;
+    currentStudent = students.find(s=>s.roll===roll);
+    if(currentStudent){
+      showSection(studentDash);
+      showStudentMarks();
+    } else { document.getElementById("sMsg").innerText="Student not found"; }
+  });
+
+  // Add student
+  document.getElementById("addStudentBtn").addEventListener("click", function(){
+    const name=document.getElementById("name").value;
+    const cls=document.getElementById("cls").value;
+    const roll=document.getElementById("roll").value;
+    students.push({name, class:cls, roll, marks:{}});
+    localStorage.setItem("students", JSON.stringify(students));
+    loadStudents();
+    document.getElementById("name").value=document.getElementById("cls").value=document.getElementById("roll").value="";
+  });
+
+  // Load students
+  function loadStudents(){
+    const sel=document.getElementById("studentList");
+    sel.innerHTML="";
+    students.forEach((s,i)=>{
+      const o=document.createElement("option");
+      o.value=i;
+      o.textContent=`${s.name} (Roll ${s.roll})`;
+      sel.appendChild(o);
+    });
+  }
+
+  // Save marks
+  document.getElementById("saveMarksBtn").addEventListener("click", function(){
+    const sel=document.getElementById("studentList").value;
+    students[sel].marks={
+      maths: document.getElementById("m1").value,
+      science: document.getElementById("m2").value,
+      english: document.getElementById("m3").value
+    };
+    localStorage.setItem("students", JSON.stringify(students));
+    alert("Marks saved");
+  });
+
+  // Show student marks
+  function showStudentMarks(){
+    studentMarks.innerHTML=`
+      <table>
+        <tr><th>Subject</th><th>Marks</th></tr>
+        <tr><td>Maths</td><td>${currentStudent.marks.maths||"-"}</td></tr>
+        <tr><td>Science</td><td>${currentStudent.marks.science||"-"}</td></tr>
+        <tr><td>English</td><td>${currentStudent.marks.english||"-"}</td></tr>
+      </table>`;
+  }
+
+  // PDF
+  document.getElementById("pdfBtn").addEventListener("click", function(){
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF();
+    pdf.text("Amrita Vidyalayam - Consolidated Mark Sheet", 10, 10);
+    let y=20;
+    pdf.text("Name | Roll | Maths | Science | English", 10, y);
+    y+=8;
+    students.forEach(s=>{
+      pdf.text(`${s.name} | ${s.roll} | ${s.marks.maths||"-"} | ${s.marks.science||"-"} | ${s.marks.english||"-"}`, 10, y);
+      y+=8;
+    });
+    pdf.save("Consolidated_Mark_Sheet.pdf");
+  });
+
+});
